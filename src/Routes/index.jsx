@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AddControlTrabajo from "../Components/ControlTrabajo/AddControl";
 import { MainLayout } from "../Layouts";
 import { HomeView, LoginView, RegisterView, ServiciosView } from "../Pages";
 
@@ -9,6 +10,7 @@ const Router = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomeView />} />
           <Route path="/servicios" element={<ServiciosView />} />
+          <Route path="/servicios/agregar" element={<AddControlTrabajo />} />
 
         </Route>
 

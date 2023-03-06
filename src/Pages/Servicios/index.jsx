@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom';
-import AddControlTrabajo from '../../Components/ControlTrabajo/AddControl';
+import ListControl from '../../Components/ControlTrabajo/ListControl';
 import { AuthContext } from '../../Context/AuthContext';
 
 const Servicios = () => {
@@ -11,8 +11,7 @@ const Servicios = () => {
     if (!isAuth()) return <Navigate to="/login" />;
 
     return (
-
-        <AddControlTrabajo />
+        <ListControl/>
     )
 }
 

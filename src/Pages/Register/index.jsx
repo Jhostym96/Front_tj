@@ -27,7 +27,6 @@ const Register = () => {
 
       console.log(response)
 
-
       Swal.fire({
         icon: "success",
         text: "Usuario creado correctamente",

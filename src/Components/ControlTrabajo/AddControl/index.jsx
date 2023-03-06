@@ -9,8 +9,7 @@ function AddControlTrabajo() {
 
     const { user } = useContext(AuthContext);
 
-
-    // const navegar = useNavigate()
+    const navegar = useNavigate()
 
     // Hooks
     const [numeroControl, setNumeroControl] = useState('')
@@ -18,15 +17,20 @@ function AddControlTrabajo() {
     const [cliente, setCliente] = useState('')
     const [almacen, setAlmacen] = useState('')
     const [maquina, setMaquina] = useState('')
-    const [operador, setOperador] = useState('')
+    const [operador, setOperador] = useState(user.name)
     const [turno, setTurno] = useState('')
     const [serviceType, setServiceType] = useState('')
     const [inicio, setInicio] = useState('')
     const [fin, setFin] = useState('')
     const [total, setTotal] = useState('')
-    const [payO, setPayO] = useState('')
+    const [tarifa, setTarifa] = useState('')
+
+    const [esHora, setEsHora] = useState(false);
 
 
+    function manejarCambioCheckbox(evento) {
+        setEsHora(evento.target.checked);
+    }
 
     var controltrabajo = {
         numeroControl: numeroControl,
@@ -40,38 +44,71 @@ function AddControlTrabajo() {
         inicio: inicio,
         fin: fin,
         total: total,
-        payO: payO,
+        tarifa: tarifa,
     }
 
+    function handleInicioChange(event) {
+        const valor = event.target.value;
+        setInicio(valor);
+        const resultado = fin - valor;
+        setTotal(resultado);
+    }
+
+    function handleFinChange(event) {
+        const valor = event.target.value;
+        setFin(valor);
+        const resultado = valor - inicio;
+        setTotal(resultado.toFixed(2));
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = axios.post('http://localhost:5000/api/v1/maquinaria', controltrabajo, {
+            const response = await axios.post('http://localhost:5000/api/v1/maquinaria', controltrabajo, {
                 headers: {
                     Authorization: `bearer ${user.token}`
                 }
             })
-
             console.log(response)
+            Swal.fire({
+                icon: "success",
+                text: "Servicio creado correctamente",
+            })
 
-
-
-
+            navegar("/servicios")
         }
-        catch {
-
+        catch (error) {
+            console.log(error.response.data)
+            Swal.fire({
+                icon: "error",
+                text: Object.values(error.response.data),
+            })
         }
-
-
     }
+
+    const handleServicioChange = (event) => {
+        const opcionSeleccionada = event.target.value;
+        // aquí puedes utilizar la opción seleccionada para determinar la tarifa correspondiente
+        // por ejemplo:
+        if (opcionSeleccionada === "LAMPON") {
+            setTarifa(8.50);
+        } else if (opcionSeleccionada === "RASTRA") {
+            setTarifa(10.00);
+        } else if (opcionSeleccionada === "MONTACARGA") {
+            setTarifa(7.00);
+        } else {
+            setTarifa("");
+        }
+        setServiceType(opcionSeleccionada);
+    };
+
 
 
     return (
         <>
             <div className='container'>
-                <Link to={"/listcontrol"}><button className='btn btn-warning mt-3'>Regresar</button></Link>
+                <Link to={"/servicios"}><button className='btn btn-warning mt-3'>Regresar</button></Link>
 
                 <div className='row'>
                     <h2 className='mt-4'>Registrar servicio</h2>
@@ -82,7 +119,7 @@ function AddControlTrabajo() {
 
                         <div className='mb-3'>
                             <label htmlFor='numeroControl' className='form-label'>N°</label>
-                            <input value={numeroControl} onChange={(e) => { setNumeroControl(e.target.value) }} type="numer" className='form-control' />
+                            <input value={numeroControl} onChange={(e) => { setNumeroControl(e.target.value) }} type="number" className='form-control' />
                         </div>
 
                         <div className='mb-3'>
@@ -107,35 +144,51 @@ function AddControlTrabajo() {
 
                         <div className='mb-3'>
                             <label htmlFor='operador' className='form-label'>Operador</label>
-                            <input value={operador} onChange={(e) => { setOperador(e.target.value) }} type="text" className='form-control' />
+                            <input value={operador} onChange={(e) => { setOperador(e.target.value) }} type="text" className='form-control' disabled />
                         </div>
 
                         <div className='mb-3'>
                             <label htmlFor='turno' className='form-label'>Turno</label>
-                            <input value={turno} onChange={(e) => { setTurno(e.target.value) }} type="text" className='form-control' />
+                            <select value={turno} onChange={(e) => { setTurno(e.target.value) }} type="text" className='form-control'>
+                                <option value="">SELECCIONAR...</option>
+                                <option value="DIA">DIA</option>
+                                <option value="NOCHE">NOCHE</option>
+                            </select>
                         </div>
                         <div className='mb-3'>
                             <label htmlFor='serviceType' className='form-label'>Tipo de servicio</label>
-                            <input value={serviceType} onChange={(e) => { setServiceType(e.target.value) }} type="text" className='form-control' />
+                            <select value={serviceType} onChange={handleServicioChange} type="text" className='form-control' >
+                                <option value="">SELECCIONAR...</option>
+                                <option value="LAMPON">LAMPON</option>
+                                <option value="RASTRA">RASTRA</option>
+                                <option value="MONTACARGA">MONTACARGA</option>
+                            </select>
+                        </div>
+
+                        <div className='mb-3'>
+                            <label htmlFor='eshora' className='form-label'>
+                                ¿Es hora?
+                                <input type="checkbox" checked={esHora} onChange={manejarCambioCheckbox} />
+                            </label>
                         </div>
 
                         <div className='mb-3'>
                             <label htmlFor='inicio' className='form-label'>Inicio</label>
-                            <input value={inicio} onChange={(e) => { setInicio(e.target.value) }} type="text" className='form-control' />
+                            <input type={esHora ? "time" : "number"} value={inicio} onChange={handleInicioChange} className='form-control' />
                         </div>
 
                         <div className='mb-3'>
                             <label htmlFor='fin' className='form-label'>Fin</label>
-                            <input value={fin} onChange={(e) => { setFin(e.target.value) }} type="text" className='form-control' />
+                            <input type={esHora ? "time" : "number"} value={fin} onChange={handleFinChange} className='form-control' />
                         </div>
 
                         <div className='mb-3'>
                             <label htmlFor='total' className='form-label'>Total</label>
-                            <input value={total} onChange={(e) => { setTotal(e.target.value) }} type="text" className='form-control' />
+                            <input value={!esHora ? total : total} onChange={(e) => { setTotal(e.target.value) }} type="number" className='form-control' disabled={!esHora} />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='payO' className='form-label'>Pago</label>
-                            <input value={payO} onChange={(e) => { setPayO(e.target.value) }} type="text" className='form-control' />
+                            <label htmlFor='tarifa' className='form-label'>Tarifa</label>
+                            <input value={tarifa} onChange={(e) => { setTarifa(e.target.value) }} type="number" className='form-control' readOnly disabled />
                         </div>
                         <div className="col text-center">
                             <button className='btn btn-success mb-3'>Guardar</button>
