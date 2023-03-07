@@ -103,100 +103,99 @@ function AddControlTrabajo() {
         setServiceType(opcionSeleccionada);
     };
 
-
-
     return (
-        <>
-            <div className='container'>
+
+        <div>
+            <div className='text-center' >
                 <Link to={"/servicios"}><button className='btn btn-warning mt-3'>Regresar</button></Link>
+            </div>
 
-                <div className='row'>
-                    <h2 className='mt-4'>Registrar servicio</h2>
-                </div>
-
-                <form className='row' onSubmit={handleSubmit}>
-                    <div className='col-sm-6'>
-
-                        <div className='mb-3'>
-                            <label htmlFor='numeroControl' className='form-label'>N°</label>
-                            <input value={numeroControl} onChange={(e) => { setNumeroControl(e.target.value) }} type="number" className='form-control' />
+            <div className='container d-flex align-items-center justify-content-center vh-100'>
+                <form className='mx-auto' onSubmit={handleSubmit}>
+                    <h2 className='text-center'>Registrar servicio</h2>
+                    <div className='col-sm-12'>
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='numeroControl' className='form-label'>N°</label>
+                                <input value={numeroControl} onChange={(e) => { setNumeroControl(e.target.value) }} type="number" className='form-control' />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='fecha' className='form-label'>Fecha</label>
+                                <input value={fecha} onChange={(e) => { setFecha(e.target.value) }} type="date" className='form-control' />
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='fecha' className='form-label'>Fecha</label>
-                            <input value={fecha} onChange={(e) => { setFecha(e.target.value) }} type="date" className='form-control' />
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='cliente' className='form-label'>Cliente</label>
+                                <input value={cliente} onChange={(e) => { setCliente(e.target.value) }} type="text" className='form-control' />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='almacen' className='form-label'>Almacen</label>
+                                <input value={almacen} onChange={(e) => { setAlmacen(e.target.value) }} type="text" className='form-control' />
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='cliente' className='form-label'>Cliente</label>
-                            <input value={cliente} onChange={(e) => { setCliente(e.target.value) }} type="text" className='form-control' />
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='maquina' className='form-label'>Maquina</label>
+                                <input value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control' />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='operador' className='form-label'>Operador</label>
+                                <input value={operador} onChange={(e) => { setOperador(e.target.value) }} type="text" className='form-control' disabled />
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='almacen' className='form-label'>Almacen</label>
-                            <input value={almacen} onChange={(e) => { setAlmacen(e.target.value) }} type="text" className='form-control' />
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='turno' className='form-label'>Turno</label>
+                                <select value={turno} onChange={(e) => { setTurno(e.target.value) }} type="text" className='form-control'>
+                                    <option value="">Selecionar...</option>
+                                    <option value="DIA">DIA</option>
+                                    <option value="NOCHE">NOCHE</option>
+                                </select>
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='serviceType' className='form-label'>Tipo de servicio</label>
+                                <select value={serviceType} onChange={handleServicioChange} type="text" className='form-control' >
+                                    <option value="">Selecionar...</option>
+                                    <option value="LAMPON">LAMPON</option>
+                                    <option value="RASTRA">RASTRA</option>
+                                    <option value="MONTACARGA">MONTACARGA</option>
+                                </select>
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='maquina' className='form-label'>Maquina</label>
-                            <input value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control' />
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='eshora' className='form-label'>
+                                    ¿Es hora?
+                                    <input type="checkbox" checked={esHora} onChange={manejarCambioCheckbox} />
+                                </label>
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='inicio' className='form-label'>Inicio</label>
+                                <input type={esHora ? "time" : "number"} value={inicio} onChange={handleInicioChange} className='form-control' />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='fin' className='form-label'>Fin</label>
+                                <input type={esHora ? "time" : "number"} value={fin} onChange={handleFinChange} className='form-control' />
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='operador' className='form-label'>Operador</label>
-                            <input value={operador} onChange={(e) => { setOperador(e.target.value) }} type="text" className='form-control' disabled />
+                        <div className='row mt-2'>
+                            <div className='col'>
+                                <label htmlFor='total' className='form-label'>Total</label>
+                                <input value={!esHora ? total : total} onChange={(e) => { setTotal(e.target.value) }} type="number" className='form-control' disabled={!esHora} />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor='tarifa' className='form-label'>Tarifa</label>
+                                <input value={tarifa} onChange={(e) => { setTarifa(e.target.value) }} type="number" className='form-control' readOnly disabled />
+                            </div>
                         </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='turno' className='form-label'>Turno</label>
-                            <select value={turno} onChange={(e) => { setTurno(e.target.value) }} type="text" className='form-control'>
-                                <option value="">SELECCIONAR...</option>
-                                <option value="DIA">DIA</option>
-                                <option value="NOCHE">NOCHE</option>
-                            </select>
-                        </div>
-                        <div className='mb-3'>
-                            <label htmlFor='serviceType' className='form-label'>Tipo de servicio</label>
-                            <select value={serviceType} onChange={handleServicioChange} type="text" className='form-control' >
-                                <option value="">SELECCIONAR...</option>
-                                <option value="LAMPON">LAMPON</option>
-                                <option value="RASTRA">RASTRA</option>
-                                <option value="MONTACARGA">MONTACARGA</option>
-                            </select>
-                        </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='eshora' className='form-label'>
-                                ¿Es hora?
-                                <input type="checkbox" checked={esHora} onChange={manejarCambioCheckbox} />
-                            </label>
-                        </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='inicio' className='form-label'>Inicio</label>
-                            <input type={esHora ? "time" : "number"} value={inicio} onChange={handleInicioChange} className='form-control' />
-                        </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='fin' className='form-label'>Fin</label>
-                            <input type={esHora ? "time" : "number"} value={fin} onChange={handleFinChange} className='form-control' />
-                        </div>
-
-                        <div className='mb-3'>
-                            <label htmlFor='total' className='form-label'>Total</label>
-                            <input value={!esHora ? total : total} onChange={(e) => { setTotal(e.target.value) }} type="number" className='form-control' disabled={!esHora} />
-                        </div>
-                        <div className='mb-3'>
-                            <label htmlFor='tarifa' className='form-label'>Tarifa</label>
-                            <input value={tarifa} onChange={(e) => { setTarifa(e.target.value) }} type="number" className='form-control' readOnly disabled />
-                        </div>
-                        <div className="col text-center">
-                            <button className='btn btn-success mb-3'>Guardar</button>
+                        <div className="col text-center mt-2">
+                            <button className='btn btn-success col'>Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 

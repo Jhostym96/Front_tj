@@ -10,6 +10,7 @@ function ListControl() {
     const [datos, setDatos] = useState([]);
     const [fechaInicio, setFechaInicio] = useState('');
     const [fechaFin, setFechaFin] = useState('');
+    const [totalPago, setTotalPago] = useState(0);
 
     const obtenerServicios = async () => {
         try {
@@ -23,7 +24,12 @@ function ListControl() {
                 }
             });
 
-            setDatos(response?.data.servicios || []);
+            const nuevosDatos = response?.data.servicios || [];
+            setDatos(nuevosDatos);
+
+            const sumaPagos = nuevosDatos.reduce((total, servicio) => total + servicio.payO, 0);
+            setTotalPago(sumaPagos);
+            console.log(totalPago)
         } catch (error) {
             console.error(error);
         }
@@ -103,6 +109,16 @@ function ListControl() {
                                 </tr>
                             )}
                         </tbody>
+                        <tfoot>
+                            <tr >
+                                <td colSpan='10' >
+                                </td>
+                                <td className='text-right font-weight-bold'>
+                                    Total Pago:
+                                </td>
+                                <td className='text-right font-weight-bold'>{totalPago}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
