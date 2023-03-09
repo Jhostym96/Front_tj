@@ -10,11 +10,11 @@ const MainLayout = () => {
     const { user, logout } = useContext(AuthContext);
 
     return (
-        <>
-            <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark" className='p-2'>
-
+        <div>
+            <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark" className='
+         fixed-top' >
                 <Navbar.Brand as={NavLink} to={"/"}>
-                    Bienvenido {user.name}
+                    {user.name}
                 </Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -24,13 +24,15 @@ const MainLayout = () => {
                     </Nav>
 
                     <Nav>
-                        <Nav.Link as={NavLink} to={"/account"}>Mi cuenta</Nav.Link>
+                        {/* <Nav.Link as={NavLink} to={"/account"}>Mi cuenta</Nav.Link> */}
                         <Nav.Link onClick={logout}>Cerrar sesion</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
+            <br />
+            <br />
             <Outlet />
-        </>
+        </div>
     );
 };
 

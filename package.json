@@ -18,6 +18,7 @@
     "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://administrativo.transportej.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

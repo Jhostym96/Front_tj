@@ -26,11 +26,7 @@ function AddControlTrabajo() {
     const [tarifa, setTarifa] = useState('')
 
     const [esHora, setEsHora] = useState(false);
-
-
-    function manejarCambioCheckbox(evento) {
-        setEsHora(evento.target.checked);
-    }
+    const [isChecked, setIsChecked] = useState(false);
 
     var controltrabajo = {
         numeroControl: numeroControl,
@@ -47,25 +43,11 @@ function AddControlTrabajo() {
         tarifa: tarifa,
     }
 
-    function handleInicioChange(event) {
-        const valor = event.target.value;
-        setInicio(valor);
-        const resultado = fin - valor;
-        setTotal(resultado);
-    }
-
-    function handleFinChange(event) {
-        const valor = event.target.value;
-        setFin(valor);
-        const resultado = valor - inicio;
-        setTotal(resultado.toFixed(2));
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/maquinaria', controltrabajo, {
+            const response = await axios.post('https://back-tj.onrender.com/api/v1/maquinaria', controltrabajo, {
                 headers: {
                     Authorization: `bearer ${user.token}`
                 }
@@ -87,6 +69,10 @@ function AddControlTrabajo() {
         }
     }
 
+    function manejarCambioCheckbox(evento) {
+        setEsHora(evento.target.checked);
+    }
+
     const handleServicioChange = (event) => {
         const opcionSeleccionada = event.target.value;
         // aquí puedes utilizar la opción seleccionada para determinar la tarifa correspondiente
@@ -103,10 +89,33 @@ function AddControlTrabajo() {
         setServiceType(opcionSeleccionada);
     };
 
-    return (
+    function handleInicioChange(event) {
+        const valor = event.target.value;
+        setInicio(valor);
+        const resultado = fin - valor;
+        setTotal(resultado);
+    }
 
-        <div>
-            <div className='text-center' >
+    function handleFinChange(event) {
+        const valor = event.target.value;
+        setFin(valor);
+        const resultado = valor - inicio;
+        setTotal(resultado.toFixed(2));
+    }
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+
+        const extraordinario = !isChecked ? total * 1.5 : (total / 1.5) * 1;
+        setTotal(extraordinario.toFixed(2))
+
+    };
+
+
+
+    return (
+        <div className='container p-3 mt-10'>
+            <div className='text-center mb-2'>
                 <Link to={"/servicios"}><button className='btn btn-warning mt-3'>Regresar</button></Link>
             </div>
 
@@ -163,13 +172,29 @@ function AddControlTrabajo() {
                                 </select>
                             </div>
                         </div>
-                        <div className='row mt-2'>
+
+                        <div className='row mt-4 text-center'>
+
                             <div className='col'>
                                 <label htmlFor='eshora' className='form-label'>
-                                    ¿Es hora?
                                     <input type="checkbox" checked={esHora} onChange={manejarCambioCheckbox} />
+                                    ¿Es hora?
                                 </label>
                             </div>
+
+                            <div className='col'>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={isChecked}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    50%
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className='row mt-2'>
                             <div className='col'>
                                 <label htmlFor='inicio' className='form-label'>Inicio</label>
                                 <input type={esHora ? "time" : "number"} value={inicio} onChange={handleInicioChange} className='form-control' />

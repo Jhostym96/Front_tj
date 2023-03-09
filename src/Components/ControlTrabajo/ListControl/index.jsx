@@ -14,7 +14,7 @@ function ListControl() {
 
     const obtenerServicios = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/v1/maquinaria', {
+            const response = await axios.get('https://back-tj.onrender.com/api/v1/maquinaria', {
                 headers: {
                     Authorization: `bearer ${user.token}`
                 },
@@ -48,7 +48,6 @@ function ListControl() {
     };
 
     return (
-        <>
             <div className='container'>
                 <div className="row mt-3">
                     <div className="col-md-2">
@@ -83,6 +82,7 @@ function ListControl() {
                                 <th scope="col">Total</th>
                                 <th scope="col">Tarifa</th>
                                 <th scope="col">Pago</th>
+                                <th scope="col">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,6 +101,7 @@ function ListControl() {
                                         <td>{servicio.total}</td>
                                         <td>{servicio.tarifa}</td>
                                         <td>{servicio.payO}</td>
+                                        <td>{servicio.estate}</td>
                                     </tr>
                                 ))
                             ) : (
@@ -122,7 +123,6 @@ function ListControl() {
                     </table>
                 </div>
             </div>
-        </>
     );
 }
 

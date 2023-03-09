@@ -17,7 +17,7 @@ const Register = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/auth/register', {
+      const response = await axios.post('https://back-tj.onrender.com/api/v1/auth/register', {
         name,
         dni,
         email,
