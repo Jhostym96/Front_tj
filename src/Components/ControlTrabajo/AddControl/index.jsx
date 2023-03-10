@@ -29,6 +29,8 @@ function AddControlTrabajo() {
     const [isChecked, setIsChecked] = useState(false);
 
     const [clientes, setClientes] = useState([]);
+    const [palas, setPalas] = useState([]);
+
 
     var controltrabajo = {
         numeroControl: numeroControl,
@@ -127,10 +129,29 @@ function AddControlTrabajo() {
             });
     }
 
+    
+    const obtenerPalas = async () => {
+        return await axios.get('https://back-tj.onrender.com/api/v1/pala', {
+            headers: {
+                Authorization: `bearer ${user.token}`
+            }
+        })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     useEffect(() => {
         obtenerClientes()
             .then(data => {
                 setClientes(data.clientes);
+            });
+            obtenerPalas()
+            .then(data => {
+                setPalas(data.palas);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -174,7 +195,13 @@ function AddControlTrabajo() {
                         <div className='row mt-2'>
                             <div className='col'>
                                 <label htmlFor='maquina' className='form-label'>Maquina</label>
-                                <input value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control' />
+                                <select value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control'> 
+                                <option value="">Selecionar...</option>
+                                    {palas.map(pala => (
+                                        <option key={pala._id} value={pala.n_pala}>{pala.n_pala}</option>
+                                    ))}
+                                
+                                </select>
                             </div>
                             <div className='col'>
                                 <label htmlFor='operador' className='form-label'>Operador</label>
