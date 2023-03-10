@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,6 +27,8 @@ function AddControlTrabajo() {
 
     const [esHora, setEsHora] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+
+    const [clientes, setClientes] = useState([]);
 
     var controltrabajo = {
         numeroControl: numeroControl,
@@ -111,9 +113,30 @@ function AddControlTrabajo() {
 
     };
 
+    const obtenerClientes = async () => {
+        return await axios.get('https://back-tj.onrender.com/api/v1/cliente', {
+            headers: {
+                Authorization: `bearer ${user.token}`
+            }
+        })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
+    useEffect(() => {
+        obtenerClientes()
+            .then(data => {
+                setClientes(data.clientes);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
+
         <div className='container p-3 mt-10'>
             <div className='text-center mb-2'>
                 <Link to={"/servicios"}><button className='btn btn-warning mt-3'>Regresar</button></Link>
@@ -136,7 +159,12 @@ function AddControlTrabajo() {
                         <div className='row mt-2'>
                             <div className='col'>
                                 <label htmlFor='cliente' className='form-label'>Cliente</label>
-                                <input value={cliente} onChange={(e) => { setCliente(e.target.value) }} type="text" className='form-control' />
+                                <select value={cliente} onChange={(e) => { setCliente(e.target.value) }} type="text" className='form-control'>
+                                    <option value="">Selecionar...</option>
+                                    {clientes.map(cliente => (
+                                        <option key={cliente._id} value={cliente.c_rz}>{cliente.c_rz}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className='col'>
                                 <label htmlFor='almacen' className='form-label'>Almacen</label>
