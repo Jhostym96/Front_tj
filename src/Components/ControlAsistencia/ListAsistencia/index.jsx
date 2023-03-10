@@ -3,18 +3,17 @@ import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../Context/AuthContext';
 
-function ListControl() {
+function ListAsistencia() {
 
     const { user } = useContext(AuthContext);
 
     const [datos, setDatos] = useState([]);
     const [fechaInicio, setFechaInicio] = useState('');
     const [fechaFin, setFechaFin] = useState('');
-    const [totalPago, setTotalPago] = useState(0);
 
     const obtenerServicios = async () => {
         try {
-            const response = await axios.get('https://back-tj.onrender.com/api/v1/maquinaria', {
+            const response = await axios.get('https://back-tj.onrender.com/api/v1/asistencia', {
                 headers: {
                     Authorization: `bearer ${user.token}`
                 },
@@ -23,17 +22,13 @@ function ListControl() {
                     fechaFin
                 }
             });
-
-            const nuevosDatos = response?.data.servicios || [];
+            const nuevosDatos = response?.data.reporte || [];
             setDatos(nuevosDatos);
-
-            const sumaPagos = nuevosDatos.reduce((total, servicio) => total + servicio.payO, 0);
-            setTotalPago(sumaPagos);
-            console.log(totalPago)
         } catch (error) {
             console.error(error);
         }
     };
+
 
     useEffect(() => {
         const fechaActual = new Date();
@@ -41,7 +36,10 @@ function ListControl() {
         const ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
         setFechaInicio(primerDiaDelMes.toISOString().slice(0, 10));
         setFechaFin(ultimoDiaDelMes.toISOString().slice(0, 10));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     const handleBuscarClick = () => {
         obtenerServicios();
@@ -70,58 +68,30 @@ function ListControl() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th scope="col">N°</th>
                             <th scope="col">Fecha</th>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Almacen</th>
-                            <th scope="col">Maquina</th>
-                            <th scope="col">Turno</th>
-                            <th scope="col">Servicio</th>
-                            <th scope="col">Inicio</th>
-                            <th scope="col">Fin</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Pago</th>
+                            <th scope="col">Trabajo</th>
                             <th scope="col">Estado</th>
                         </tr>
                     </thead>
                     <tbody>
                         {datos !== null ? (
-                            datos.map((servicio) => (
-                                <tr key={servicio._id}>
-                                    <td>{servicio.numeroControl}</td>
-                                    <td>{servicio.fecha.substring(0, 10)}</td>
-                                    <td>{servicio.cliente}</td>
-                                    <td>{servicio.almacen}</td>
-                                    <td>{servicio.maquina}</td>
-                                    <td>{servicio.turno}</td>
-                                    <td>{servicio.serviceType}</td>
-                                    <td>{servicio.inicio}</td>
-                                    <td>{servicio.fin}</td>
-                                    <td>{servicio.total}</td>
-                                    <td>{servicio.payO}</td>
-                                    <td>{servicio.estate}</td>
+                            datos.map((asistencia) => (
+                                <tr key={asistencia._id}>
+                                    <td>{asistencia.fecha.substring(0, 10)}</td>
+                                    <td>{asistencia.cliente}</td>
+                                    <td>{asistencia.estado}</td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan='12'>No hay datos disponibles</td>
+                                <td colSpan='1'>No hay datos disponibles</td>
                             </tr>
                         )}
                     </tbody>
-                    <tfoot>
-                        <tr >
-                            <td colSpan='9' >
-                            </td>
-                            <td className='text-right font-weight-bold'>
-                                Total Pago:
-                            </td>
-                            <td className='text-right font-weight-bold'>{totalPago}</td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
     );
 }
 
-export default ListControl;
+export default ListAsistencia;

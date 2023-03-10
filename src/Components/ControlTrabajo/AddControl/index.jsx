@@ -128,8 +128,6 @@ function AddControlTrabajo() {
                 console.log(error);
             });
     }
-
-    
     const obtenerPalas = async () => {
         return await axios.get('https://back-tj.onrender.com/api/v1/pala', {
             headers: {

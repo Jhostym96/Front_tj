@@ -21,6 +21,7 @@ const MainLayout = () => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className='me-auto'>
                         <Nav.Link as={NavLink} to={"/servicios"}>Servicios</Nav.Link>
+                        <Nav.Link as={NavLink} to={"/asistencia"}>Asistencia</Nav.Link>
                     </Nav>
 
                     <Nav>
