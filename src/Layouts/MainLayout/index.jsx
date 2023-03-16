@@ -20,8 +20,19 @@ const MainLayout = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className='me-auto'>
-                        <Nav.Link as={NavLink} to={"/servicios"}>Servicios</Nav.Link>
-                        <Nav.Link as={NavLink} to={"/asistencia"}>Asistencia</Nav.Link>
+
+                        {user.role === 'user' &&
+                            <Nav.Link as={NavLink} to={"/servicios"}>Servicios</Nav.Link>
+                        }
+                        {user.role === 'user' &&
+                            <Nav.Link as={NavLink} to={"/asistencia"}>Asistencia</Nav.Link>
+                        }
+
+
+                        {user.role === 'admin' && <Nav.Link as={NavLink} to={"/operadores"}>Operadores</Nav.Link>}
+
+
+
                     </Nav>
 
                     <Nav>

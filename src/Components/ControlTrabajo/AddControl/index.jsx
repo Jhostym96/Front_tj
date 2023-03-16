@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { AuthContext } from '../../../Context/AuthContext';
 
 function AddControlTrabajo() {
 
-    const { user } = useContext(AuthContext);
+    const { user, isAuth } = useContext(AuthContext);
 
     const navegar = useNavigate()
 
@@ -153,6 +153,9 @@ function AddControlTrabajo() {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    if (!isAuth()) return <Navigate to="/login" />;
+
 
     return (
 

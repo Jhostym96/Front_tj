@@ -9,6 +9,7 @@
     "aos": "^2.3.4",
     "axios": "^1.3.4",
     "bootstrap": "^5.2.3",
+    "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-datepicker": "^4.10.0",
@@ -16,7 +17,8 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.7.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "homepage": "https://administrativo.transportej.com/",
   "scripts": {

@@ -49,7 +49,7 @@ function ListAsistencia() {
         <div className='container'>
             <div className="row mt-3">
                 <div className="col-md-2">
-                    <Link to={"agregar"}><button className='btn btn-success mt-3'>Agregar Servicio</button></Link>
+                    <Link to={"agregar"}><button className='btn btn-success mt-3'>Agregar Asistencia</button></Link>
                 </div>
                 <div className="col-md-2">
                     <label htmlFor="fechaInicio">Fecha de inicio:</label>
