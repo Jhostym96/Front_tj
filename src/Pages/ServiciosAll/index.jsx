@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver';
 
 function ListControlAll() {
