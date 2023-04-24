@@ -17,7 +17,7 @@ function ListControlAll() {
 
   const obtenerServicios = async () => {
     try {
-      const response = await axios.get('https://back-tj.onrender.com/api/v1/maquinaria/all', {
+      const response = await axios.get('https://backtj.fly.dev/api/v1/maquinaria/all', {
         headers: {
           Authorization: `bearer ${user.token}`
         },
@@ -37,7 +37,7 @@ function ListControlAll() {
 
   const exportarServicios = async () => {
     try {
-      const response = await axios.get('https://back-tj.onrender.com/api/v1/maquinaria/all', {
+      const response = await axios.get('https://backtj.fly.dev/api/v1/maquinaria/all', {
         headers: {
           Authorization: `bearer ${user.token}`
         },

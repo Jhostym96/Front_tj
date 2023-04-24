@@ -26,7 +26,7 @@ function AddAsistencia() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('https://back-tj.onrender.com/api/v1/asistencia', controlAsistencia, {
+      const response = await axios.post('https://backtj.fly.dev/api/v1/asistencia', controlAsistencia, {
         headers: {
           Authorization: `bearer ${user.token}`
         }

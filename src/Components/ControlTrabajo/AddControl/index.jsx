@@ -51,7 +51,7 @@ function AddControlTrabajo() {
         event.preventDefault();
 
         try {
-            const response = await axios.post('https://back-tj.onrender.com/api/v1/maquinaria', controltrabajo, {
+            const response = await axios.post('https://backtj.fly.dev/api/v1/maquinaria', controltrabajo, {
                 headers: {
                     Authorization: `bearer ${user.token}`
                 }
@@ -116,7 +116,7 @@ function AddControlTrabajo() {
     };
 
     const obtenerClientes = async () => {
-        return await axios.get('https://back-tj.onrender.com/api/v1/cliente', {
+        return await axios.get('https://backtj.fly.dev/api/v1/cliente', {
             headers: {
                 Authorization: `bearer ${user.token}`
             }
@@ -129,7 +129,7 @@ function AddControlTrabajo() {
             });
     }
     const obtenerPalas = async () => {
-        return await axios.get('https://back-tj.onrender.com/api/v1/pala', {
+        return await axios.get('https://backtj.fly.dev/api/v1/pala', {
             headers: {
                 Authorization: `bearer ${user.token}`
             }
