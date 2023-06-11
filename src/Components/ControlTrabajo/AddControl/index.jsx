@@ -27,6 +27,8 @@ function AddControlTrabajo() {
 
     const [esHora, setEsHora] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [isChecked2, setIsChecked2] = useState(false);
+
 
     const [clientes, setClientes] = useState([]);
     const [palas, setPalas] = useState([]);
@@ -115,6 +117,15 @@ function AddControlTrabajo() {
 
     };
 
+
+    const handleCheckboxChange2 = () => {
+        setIsChecked2(!isChecked2);
+
+        const extraordinario = !isChecked2 ? total * 2 : (total / 2) * 1;
+        setTotal(extraordinario.toFixed(2))
+
+    };
+
     const obtenerClientes = async () => {
         return await axios.get('https://backtj.fly.dev/api/v1/cliente', {
             headers: {
@@ -147,7 +158,7 @@ function AddControlTrabajo() {
             .then(data => {
                 setClientes(data.clientes);
             });
-            obtenerPalas()
+        obtenerPalas()
             .then(data => {
                 setPalas(data.palas);
             });
@@ -196,12 +207,12 @@ function AddControlTrabajo() {
                         <div className='row mt-2'>
                             <div className='col'>
                                 <label htmlFor='maquina' className='form-label'>Maquina</label>
-                                <select value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control'> 
-                                <option value="">Selecionar...</option>
+                                <select value={maquina} onChange={(e) => { setMaquina(e.target.value) }} type="text" className='form-control'>
+                                    <option value="">Selecionar...</option>
                                     {palas.map(pala => (
                                         <option key={pala._id} value={pala.n_pala}>{pala.n_pala}</option>
                                     ))}
-                                
+
                                 </select>
                             </div>
                             <div className='col'>
@@ -248,6 +259,19 @@ function AddControlTrabajo() {
                                     50%
                                 </label>
                             </div>
+
+                            <div className='col'>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={isChecked2}
+                                        onChange={handleCheckboxChange2}
+                                    />
+                                    100%
+                                </label>
+                            </div>
+
+
                         </div>
 
                         <div className='row mt-2'>
